@@ -66,7 +66,7 @@ async def play(ctx, *, url: str):
     # We'll use get_video_info function to get the video details
     info = get_video_info(url)
     URL = info['formats'][0]['url']
-    ctx.voice_client.play(discord.FFmpegPCMAudio(executable="ffmpeg", source=URL))
+    ctx.voice_client.play(discord.FFmpegPCMAudio(executable=ffmpeg_path, source=URL))
 
 @bot.command(name='pause')
 async def pause(ctx):
