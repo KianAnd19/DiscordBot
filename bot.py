@@ -22,12 +22,12 @@ async def ping(ctx):
 
 
 # Music Streaming
-@bot.command()
+@bot.command(name='join')
 async def join(ctx):
     channel = ctx.author.voice.channel
     await channel.connect()
 
-@bot.command()
+@bot.command(name='leave')
 async def leave(ctx):
     await ctx.voice_client.disconnect()
 
@@ -42,7 +42,7 @@ ytdl_format_options = {
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
-@bot.command()
+@bot.command(name='play')
 async def play(ctx, url):
     if not ctx.voice_client.is_connected():
         await ctx.author.voice.channel.connect()
@@ -52,12 +52,12 @@ async def play(ctx, url):
         URL = info['formats'][0]['url']
         ctx.voice_client.play(discord.FFmpegPCMAudio(executable="ffmpeg", source=URL))
 
-@bot.command()
+@bot.command(name='pause')
 async def pause(ctx):
     if ctx.voice_client.is_playing():
         ctx.voice_client.pause()
 
-@bot.command()
+@bot.command(name='resume')
 async def resume(ctx):
     if ctx.voice_client.is_paused():
         ctx.voice_client.resume()
