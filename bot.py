@@ -14,7 +14,7 @@ async def on_ready():
 @bot.command(name='hello')
 async def hello(ctx):
     await ctx.send('Hello!')
-
+ 
 @bot.command(name='ping')
 async def ping(ctx):
     await ctx.send('pong')
