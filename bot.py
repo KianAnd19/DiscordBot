@@ -49,6 +49,9 @@ def get_video_info(url):
 
 @bot.command(name='play')
 async def play(ctx, *, url: str):
+    ffmpeg_path = os.popen("which ffmpeg").read().strip()
+    print(ffmpeg_path)
+
     if not ctx.voice_client:  # Bot is not in any voice channel
         await ctx.send("I'm not in a voice channel!")
         return
