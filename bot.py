@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import os
 import youtube_dl
-import yt_dlp as ydlp
 
 TOKEN = os.environ['DISCORD_BOT_TOKEN']
 intents = discord.Intents.all()
@@ -19,8 +18,6 @@ async def hello(ctx):
 @bot.command(name='ping')
 async def ping(ctx):
     await ctx.send('pong')
-
- 
 
 # Music Streaming
 @bot.command(name='join')
@@ -42,15 +39,13 @@ def get_video_info(url):
         }],
     }
 
-    with ydlp.YoutubeDL(ydl_opts) as ydl:
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=False)
         return info_dict
-
 
 @bot.command(name='play')
 async def play(ctx, *, url: str):
     ffmpeg_path = os.popen("which ffmpeg").read().strip()
-    print(ffmpeg_path)
 
     if not ctx.voice_client:  # Bot is not in any voice channel
         await ctx.send("I'm not in a voice channel!")
@@ -59,9 +54,6 @@ async def play(ctx, *, url: str):
     if ctx.voice_client.is_playing():
         await ctx.send("Already playing audio!")
         return
-
-    # ... rest of your play logic ...
-
 
     # We'll use get_video_info function to get the video details
     info = get_video_info(url)
@@ -77,6 +69,5 @@ async def pause(ctx):
 async def resume(ctx):
     if ctx.voice_client.is_paused():
         ctx.voice_client.resume()
-
 
 bot.run(TOKEN)
