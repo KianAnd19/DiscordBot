@@ -1,9 +1,11 @@
 import discord
+from discord.ext import commands
 import os
 from discord.ext import commands
 
 TOKEN = os.environ['DISCORD_BOT_TOKEN']
-bot = commands.Bot(command_prefix='!')
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
 async def on_ready():
