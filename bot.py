@@ -20,7 +20,7 @@ async def hello(ctx):
 async def ping(ctx):
     await ctx.send('pong')
 
-
+ 
 
 # Music Streaming
 @bot.command(name='join')
