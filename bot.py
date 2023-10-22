@@ -48,9 +48,17 @@ def get_video_info(url):
 
 
 @bot.command(name='play')
-async def play(ctx, url):
-    if not ctx.voice_client.is_connected():
-        await ctx.author.voice.channel.connect()
+async def play(ctx, *, url: str):
+    if not ctx.voice_client:  # Bot is not in any voice channel
+        await ctx.send("I'm not in a voice channel!")
+        return
+
+    if ctx.voice_client.is_playing():
+        await ctx.send("Already playing audio!")
+        return
+
+    # ... rest of your play logic ...
+
 
     # We'll use get_video_info function to get the video details
     info = get_video_info(url)
