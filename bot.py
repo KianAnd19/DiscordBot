@@ -1,7 +1,9 @@
 import discord
 from discord.ext import commands
 import os
-import youtube_dl
+# import youtube_dl
+import yt_dlp as youtube_dl
+
 
 TOKEN = os.environ['DISCORD_BOT_TOKEN']
 intents = discord.Intents.all()
