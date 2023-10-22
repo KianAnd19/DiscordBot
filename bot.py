@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 import youtube_dl
+import yt_dlp as ydlp
 
 TOKEN = os.environ['DISCORD_BOT_TOKEN']
 intents = discord.Intents.all()
@@ -31,26 +32,30 @@ async def join(ctx):
 async def leave(ctx):
     await ctx.voice_client.disconnect()
 
-ytdl_format_options = {
-    'format': 'bestaudio/best',
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-        'preferredquality': '192',
-    }],
-}
+def get_video_info(url):
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+    }
 
-ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+    with ydlp.YoutubeDL(ydl_opts) as ydl:
+        info_dict = ydl.extract_info(url, download=False)
+        return info_dict
+
 
 @bot.command(name='play')
 async def play(ctx, url):
     if not ctx.voice_client.is_connected():
         await ctx.author.voice.channel.connect()
-    
-    with youtube_dl.YoutubeDL(ytdl_format_options) as ydl:
-        info = ydl.extract_info(url, download=False)
-        URL = info['formats'][0]['url']
-        ctx.voice_client.play(discord.FFmpegPCMAudio(executable="ffmpeg", source=URL))
+
+    # We'll use get_video_info function to get the video details
+    info = get_video_info(url)
+    URL = info['formats'][0]['url']
+    ctx.voice_client.play(discord.FFmpegPCMAudio(executable="ffmpeg", source=URL))
 
 @bot.command(name='pause')
 async def pause(ctx):
