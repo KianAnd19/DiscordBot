@@ -15,11 +15,17 @@ async def on_ready():
 
 @bot.command(name='hello')
 async def hello(ctx):
-    await ctx.send('Hello!')
+    if ctx.author.id == 267651835014283264:
+        await ctx.send('Hello, can you stream tinder Kavin?')
+    else:
+        await ctx.send('Hello!')
  
 @bot.command(name='ping')
 async def ping(ctx):
-    await ctx.send('pong')
+    if ctx.author.id == 267651835014283264:
+        await ctx.send('Pong, can you stream tinder Kavin?')
+    else:
+        await ctx.send('Pong!')
 
 # Music Streaming
 @bot.command(name='join')
